@@ -1,35 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { Outlet, Link, useLocation } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './App.css'; // Create this file for custom animations
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const location = useLocation();
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      <nav style={styles.nav}>
+        <div style={styles.brand}>RodTalad</div>
+        <ul style={styles.navLinks}>
+          <li style={styles.navItem}>
+            <Link
+              to="/"
+              style={location.pathname === '/' ? styles.activeLink : styles.link}
+            >
+              Dashboard
+            </Link>
+          </li>
+          <li style={styles.navItem}>
+            <Link
+              to="/highlighted-cars"
+              style={location.pathname === '/highlighted-cars' ? styles.activeLink : styles.link}
+            >
+              Highlighted Cars
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <hr style={styles.separator} />
+      <TransitionGroup>
+        <CSSTransition
+          key={location.key}
+          classNames="fade"
+          timeout={300}
+        >
+          <Outlet />
+        </CSSTransition>
+      </TransitionGroup>
+    </div>
+  );
+};
 
-export default App
+const styles = {
+  nav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '15px 30px',
+    backgroundColor: '#2c2c2c',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  },
+  brand: {
+    fontSize: '28px',
+    fontWeight: '600',
+    fontFamily: '"Poppins", sans-serif',
+    color: '#ffffff',
+    letterSpacing: '1px',
+  },
+  navLinks: {
+    listStyle: 'none',
+    display: 'flex',
+    gap: '25px',
+  },
+  navItem: {
+    margin: '0',
+  },
+  link: {
+    textDecoration: 'none',
+    color: '#ffffff',
+    fontSize: '16px',
+    fontWeight: '500',
+    fontFamily: '"Poppins", sans-serif',
+    transition: 'color 0.3s ease',
+  },
+  activeLink: {
+    textDecoration: 'none',
+    color: '#ffffff',
+    fontSize: '16px',
+    fontWeight: '600',
+    fontFamily: '"Poppins", sans-serif',
+    borderBottom: '2px solid #ffffff', // Highlight the active link
+  },
+  separator: {
+    margin: '0',
+    border: 'none',
+    borderBottom: '1px solid #e0e0e0',
+  },
+};
+
+export default App;
