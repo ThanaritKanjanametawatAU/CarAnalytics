@@ -339,14 +339,14 @@ const barData = {
                   <tr>
                       <th onClick={() => sortTable('Car Model Name')} style={{cursor: 'pointer', userSelect: 'none'}}>
                           Car Model
-                          Name {sortConfig.key === 'Car Model Name' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
+                          Name {sortConfig.key === 'Car Model Name' ? (sortConfig.direction === 'ascending' ? '▲' : '▼') : '▼'}
                       </th>
                       <th onClick={() => sortTable('Quantity')} style={{cursor: 'pointer', userSelect: 'none'}}>
-                          Quantity {sortConfig.key === 'Quantity' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
+                          Quantity {sortConfig.key === 'Quantity' ? (sortConfig.direction === 'ascending' ? '▲' : '▼') : '▼'}
                       </th>
                       <th onClick={() => sortTable('Value')} style={{cursor: 'pointer', userSelect: 'none'}}>
                           Value
-                          (Baht) {sortConfig.key === 'Value' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
+                          (Baht) {sortConfig.key === 'Value' ? (sortConfig.direction === 'ascending' ? '▲' : '▼') : '▼'}
                       </th>
                   </tr>
                   </thead>
