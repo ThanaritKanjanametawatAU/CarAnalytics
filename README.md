@@ -46,6 +46,8 @@ This is website that is built for market owner to see the analytics of the car m
 - Users can remove the car from the list by clicking the star icon.
 - Click the car to see the detail of the car.
 - Search, Sort by Name or Price, and Filter by Brand.
+- Using Local Storage to store the favorite list.
+- Click Refresh all you want, the favorite list will still be there.
 <br><br>
 
 
