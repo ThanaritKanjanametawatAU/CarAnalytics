@@ -8,6 +8,8 @@ const App = () => {
 
   return (
     <div>
+
+        {/*Navigation Bar*/}
       <nav style={styles.nav}>
 
         <div style={styles.brand}>RodTalad</div>
@@ -38,19 +40,23 @@ const App = () => {
 
 
           {/*Hightlighted Cars*/}
-          <li style={styles.navItem}>
-            <Link
-              to="/highlighted-cars"
-              style={location.pathname === '/highlighted-cars' ? styles.activeLink : styles.link}
-            >
-              Highlighted Cars
-            </Link>
-          </li>
+          {/*<li style={styles.navItem}>*/}
+          {/*  <Link*/}
+          {/*    to="/highlighted-cars"*/}
+          {/*    style={location.pathname === '/highlighted-cars' ? styles.activeLink : styles.link}*/}
+          {/*  >*/}
+          {/*    Highlighted Cars*/}
+          {/*  </Link>*/}
+          {/*</li>*/}
 
 
 
         </ul>
       </nav>
+
+
+
+      {/*Content*/}
       <hr style={styles.separator} />
       <TransitionGroup>
         <CSSTransition
@@ -61,9 +67,16 @@ const App = () => {
           <Outlet />
         </CSSTransition>
       </TransitionGroup>
+
+
+
+
     </div>
   );
 };
+
+
+
 
 const styles = {
   nav: {

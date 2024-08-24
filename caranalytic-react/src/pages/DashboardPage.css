@@ -1,0 +1,17 @@
+.collapse-content {
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  display: none;
+}
+
+.expanded {
+  max-height: 1000px;
+  opacity: 1;
+  display: table-row;
+}
+
+tr {
+  white-space: nowrap; /* Prevents wrapping of text in table cells */
+}
