@@ -1,0 +1,111 @@
+/* BrowseCarsPage.css */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.input {
+  margin: 5px;
+  padding: 10px;
+  width: 200px;
+  font-size: 16px; /* Increase font size */
+}
+
+.button {
+  margin: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.catalog {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 30px; /* Increase the gap between items */
+  margin-top: 20px;
+}
+
+.carCard {
+  border: 1px solid #ddd;
+  padding: 20px; /* Add more padding for better spacing */
+  width: calc(33.33% - 30px);
+  box-sizing: border-box;
+  text-align: center;
+  transition: transform 0.3s ease; /* Add smooth transition for hover effect */
+}
+
+.carCard:hover {
+  transform: translateY(-5px); /* Slight hover effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.carImage {
+  width: 100%;
+  height: auto;
+}
+
+.favoriteButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #FFD700; /* Gold color for star icon */
+  transition: transform 0.3s ease; /* Add smooth transition for hover effect */
+}
+
+.favoriteButton:hover {
+    background-color: transparent;
+  transform: scale(1.2); /* Scale the star icon on hover */
+}
+
+.favoriteButton i {
+  font-size: 24px; /* Ensure the icon size matches */
+}
+
+.carCardText {
+  font-size: 18px; /* Increase the text size */
+  margin-top: 10px;
+}
+
+
+/* Modern button styles */
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #007bff; /* Primary color */
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+}
+
+.button:active {
+  transform: translateY(0); /* Reset position on click */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Focus ring for accessibility */
+}
+
+.button + .button {
+  margin-left: 10px; /* Spacing between buttons */
+}

@@ -12,150 +12,161 @@ ChartJS.register(ArcElement, BarElement, CategoryScale, LinearScale, Tooltip, Le
 // DashboardPage component
 const DashboardPage = () => {
     const [carData, setCarData] = useState(null);
-  const [fullCarData, setFullCarData] = useState(null); // New state for full data
-  const [collapsedBrands, setCollapsedBrands] = useState({});
-  const [sortConfig, setSortConfig] = useState({ key: 'Car Model Name', direction: 'ascending' });
-  const [colorMap, setColorMap] = useState({});
-
-
+    const [fullCarData, setFullCarData] = useState(null); // New state for full data
+    const [collapsedBrands, setCollapsedBrands] = useState({});
+    const [sortConfig, setSortConfig] = useState({ key: 'Car Model Name', direction: 'ascending' });
+    const [colorMap, setColorMap] = useState({});
     const toggleBrandCollapse = (brand) => {
-  setCollapsedBrands(prevState => ({
-    ...prevState,
-    [brand]: !prevState[brand],
-  }));
+    setCollapsedBrands(prevState => ({
+        ...prevState,
+        [brand]: !prevState[brand],
+    }));
   
-};
-
-
-useEffect(() => {
-  const processedData = processCarData(carDataOG.Cars);
-  const fullProcessedData = processFullCarData(carDataOG.Cars); // Process full data
-
-  setCarData(processedData);
-  setFullCarData(fullProcessedData); // Set full data
-
-  generateColorMap(fullProcessedData.brands);
-
-  // Initialize all brands as collapsed
-  const initialCollapseState = Object.keys(fullProcessedData.brands).reduce((acc, brand) => {
-    acc[brand] = true; // true means collapsed
-    return acc;
-  }, {});
-  setCollapsedBrands(initialCollapseState);
-}, []);
+    };
 
 
 
+    // UseEffect to process the car data
+    useEffect(() => {
+        const processedData = processCarData(carDataOG.Cars);
+        const fullProcessedData = processFullCarData(carDataOG.Cars); // Process full data
 
-const processFullCarData = (cars) => {
-  const brands = {};
+        setCarData(processedData);
+        setFullCarData(fullProcessedData); // Set full data
 
-  cars.forEach(car => {
-    const brandName = car.NameMMT.split(' ')[0];
-    const modelName = car.Model;
+        generateColorMap(fullProcessedData.brands);
+
+        // Initialize all brands as collapsed
+        const initialCollapseState = Object.keys(fullProcessedData.brands).reduce((acc, brand) => {
+        acc[brand] = true; // true means collapsed
+        return acc;
+        }, {});
+        setCollapsedBrands(initialCollapseState);
+    }, []);
+
+
+
+
+    // Function to process the full car data
+    const processFullCarData = (cars) => {
+    const brands = {};
+
+    cars.forEach(car => {
+        const brandName = car.NameMMT.split(' ')[0];
+        const modelName = car.Model;
     
-    // Convert the price string to a number
-    const price = parseInt(car.Prc.replace(/,/g, ''), 10);
+        // Convert the price string to a number
+        const price = parseInt(car.Prc.replace(/,/g, ''), 10);
 
-    if (!brands[brandName]) {
-      brands[brandName] = {
-        total: 0,
-        value: 0,  // Initialize value to accumulate prices
-        models: {},
-      };
-    }
+        if (!brands[brandName]) {
+            brands[brandName] = {
+                total: 0,
+                value: 0,
+                models: {},
+            };
+        }
 
-    if (!brands[brandName].models[modelName]) {
-      brands[brandName].models[modelName] = {
-        count: 0,
-        value: 0,  // Initialize value to accumulate model prices
-      };
-    }
+        if (!brands[brandName].models[modelName]) {
+            brands[brandName].models[modelName] = {
+            count: 0,
+            value: 0,  // Initialize value to accumulate model prices
+        };
+        }
 
-    brands[brandName].total += 1;
-    brands[brandName].value += price;  // Accumulate brand price
-    brands[brandName].models[modelName].count += 1;
-    brands[brandName].models[modelName].value += price;  // Accumulate model price
-  });
+        brands[brandName].total += 1;
+        brands[brandName].value += price;  // Accumulate brand price
+        brands[brandName].models[modelName].count += 1;
+        brands[brandName].models[modelName].value += price;  // Accumulate model price
+    });
 
-  return { brands };
-};
+    return { brands };
+    };
 
 
 
-  const processCarData = (cars) => {
+    // Function to process the car data before Top 5 Brands
+    const processCarData = (cars) => {
     const brands = {};
 
     // Initialize the brands object with each car's brand and model data
     cars.forEach(car => {
-      const brandName = car.NameMMT.split(' ')[0];
-      const modelName = car.Model;
+        const brandName = car.NameMMT.split(' ')[0];
+        const modelName = car.Model;
 
-      if (!brands[brandName]) {
-        brands[brandName] = {
-          total: 0,
-          models: {},
-        };
-      }
-
-      if (!brands[brandName].models[modelName]) {
-        brands[brandName].models[modelName] = 0;
-      }
-
-      brands[brandName].total += 1;
-      brands[brandName].models[modelName] += 1;
-    });
-
-    // Collect all unique models across all brands
-    const allModels = new Set();
-    Object.values(brands).forEach(brand => {
-      Object.keys(brand.models).forEach(model => allModels.add(model));
-    });
-
-    // Ensure every brand has an entry for every model, even if it's 0
-    Object.keys(brands).forEach(brand => {
-      allModels.forEach(model => {
-        if (!brands[brand].models[model]) {
-          brands[brand].models[model] = 0;
+        if (!brands[brandName]) {
+            brands[brandName] = {
+            total: 0,
+            models: {},
+            };
         }
-      });
-    });
 
-    return processTopBrands(brands);
-  };
-
-  const processTopBrands = (brands) => {
-    // Sort brands by total number of cars
-    const sortedBrands = Object.entries(brands).sort((a, b) => b[1].total - a[1].total);
-
-    const topBrands = sortedBrands.slice(0, 5);
-    const otherBrands = sortedBrands.slice(5);
-
-    const topBrandsData = {};
-    let otherTotal = 0;
-    const otherModels = {};
-
-    topBrands.forEach(([brand, data]) => {
-      topBrandsData[brand] = data;
-    });
-
-    otherBrands.forEach(([brand, data]) => {
-      otherTotal += data.total;
-      Object.entries(data.models).forEach(([model, count]) => {
-        if (!otherModels[model]) {
-          otherModels[model] = 0;
+        if (!brands[brandName].models[modelName]) {
+            brands[brandName].models[modelName] = 0;
         }
-        otherModels[model] += count;
-      });
-    });
 
-    topBrandsData["Other Brands"] = {
-      total: otherTotal,
-      models: otherModels,
+        brands[brandName].total += 1;
+        brands[brandName].models[modelName] += 1;
+        });
+
+        // Collect all unique models across all brands
+        const allModels = new Set();
+        Object.values(brands).forEach(brand => {
+            Object.keys(brand.models).forEach(model => allModels.add(model));
+        });
+
+
+        // Ensure every brand has an entry for every model, even if it's 0
+        Object.keys(brands).forEach(brand => {
+            allModels.forEach(model => {
+            if (!brands[brand].models[model]) {
+                brands[brand].models[model] = 0;
+            }
+        });
+        });
+
+        return processTopBrands(brands);
     };
 
-    return { brands: topBrandsData };
-  };
+
+
+    // Function to process the top 5 brands
+    const processTopBrands = (brands) => {
+        // Sort brands by total number of cars
+        const sortedBrands = Object.entries(brands).sort((a, b) => b[1].total - a[1].total);
+
+        const topBrands = sortedBrands.slice(0, 5);
+        const otherBrands = sortedBrands.slice(5);
+
+        const topBrandsData = {};
+        let otherTotal = 0;
+        const otherModels = {};
+
+        topBrands.forEach(([brand, data]) => {
+            topBrandsData[brand] = data;
+        });
+
+        otherBrands.forEach(([brand, data]) => {
+            otherTotal += data.total;
+            Object.entries(data.models).forEach(([model, count]) => {
+            if (!otherModels[model]) {
+                otherModels[model] = 0;
+            }
+            otherModels[model] += count;
+        });
+        });
+
+        topBrandsData["Other Brands"] = {
+            total: otherTotal,
+            models: otherModels,
+        };
+
+        return { brands: topBrandsData };
+        };
+
+
+
+
+
   
   
     const generateColorMap = (brands) => {
