@@ -5,7 +5,7 @@
 ### Visit Website at: [Car Analytics Website](https://thanarit-car-analytics.vercel.app/)
 
 ### Overview
-This is website that is built for market owner to see the analytics of the car market with an easy-to-understand dashboard. The website will show the Top 5 Brands, Car Catalog, and details of each car. Users can also add the car to their favorite list and view them later trhough `Highlighted Car`.
+This is website that is built for market owner to see the analytics of the car market with an easy-to-understand dashboard. The website will show the Top 5 Brands, Car Catalog, and details of each car. Users can also add the car to their favorite list and view them later through `Highlighted Car`.
 
 ### Features
 #### 1. Dashboard
