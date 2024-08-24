@@ -7,85 +7,85 @@ const App = () => {
   const location = useLocation();
 
   return (
-    <div>
+      <div>
 
         {/*Navigation Bar*/}
-      <nav style={styles.nav}>
+        <nav style={styles.nav}>
 
-        <div style={styles.brand}>RodTalad</div>
+          <div style={styles.brand}>RodTalad</div>
 
-        <ul style={styles.navLinks}>
-
-
-          {/*Dashboard*/}
-          <li style={styles.navItem}>
-            <Link
-              to="/"
-              style={location.pathname === '/' ? styles.activeLink : styles.link}
-            >
-              Dashboard
-            </Link>
-          </li>
+          <ul style={styles.navLinks}>
 
 
-          {/*Browse Cars*/}
-          <li style={styles.navItem}>
-            <Link
-                to="/browse-cars"
-                style={location.pathname === '/browse-cars' ? styles.activeLink : styles.link}
-            >
-                Browse Cars
-            </Link>
+            {/*Dashboard*/}
+            <li style={styles.navItem}>
+              <Link
+                  to="/"
+                  style={location.pathname === '/' ? styles.activeLink : styles.link}
+              >
+                Dashboard
+              </Link>
             </li>
 
 
-          {/*Hightlighted Cars*/}
-          {/*<li style={styles.navItem}>*/}
-          {/*  <Link*/}
-          {/*    to="/highlighted-cars"*/}
-          {/*    style={location.pathname === '/highlighted-cars' ? styles.activeLink : styles.link}*/}
-          {/*  >*/}
-          {/*    Highlighted Cars*/}
-          {/*  </Link>*/}
-          {/*</li>*/}
+            {/*Browse Cars*/}
+            <li style={styles.navItem}>
+              <Link
+                  to="/browse-cars"
+                  style={location.pathname === '/browse-cars' ? styles.activeLink : styles.link}
+              >
+                Browse Cars
+              </Link>
+            </li>
 
 
-
-        </ul>
-      </nav>
-
-
-
-      {/*Content*/}
-      <hr style={styles.separator} />
-      <TransitionGroup>
-        <CSSTransition
-          key={location.key}
-          classNames="fade"
-          timeout={300}
-        >
-          <Outlet />
-        </CSSTransition>
-      </TransitionGroup>
+            {/*Hightlighted Cars*/}
+            {/*<li style={styles.navItem}>*/}
+            {/*  <Link*/}
+            {/*    to="/highlighted-cars"*/}
+            {/*    style={location.pathname === '/highlighted-cars' ? styles.activeLink : styles.link}*/}
+            {/*  >*/}
+            {/*    Highlighted Cars*/}
+            {/*  </Link>*/}
+            {/*</li>*/}
 
 
+          </ul>
+        </nav>
 
 
-    </div>
+        {/*Content*/}
+        <div style={styles.content}>
+          <TransitionGroup>
+            <CSSTransition
+                key={location.key}
+                classNames="fade"
+                timeout={300}
+            >
+              <Outlet/>
+            </CSSTransition>
+          </TransitionGroup>
+        </div>
+
+
+      </div>
   );
 };
 
 
-
-
 const styles = {
   nav: {
+    position: 'fixed', // Make the nav bar fixed at the top
+    top: 0, // Align it to the top of the page
+    left: 0,
+    right: 0,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '15px 30px',
     backgroundColor: '#2c2c2c',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    zIndex: 1000, // Ensure it stays on top of other elements
   },
   brand: {
     fontSize: '28px',
@@ -123,6 +123,10 @@ const styles = {
     border: 'none',
     borderBottom: '1px solid #e0e0e0',
   },
+  content: {
+    paddingTop: '80px', // Adjust this value based on your nav bar height
+  },
 };
+
 
 export default App;
