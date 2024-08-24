@@ -25,6 +25,7 @@ This is website that is built for market owner to see the analytics of the car m
 ![Cars Catalog](/screenshots/CarCatalog.png)
 - Let users browse and explore the car catalog.
 - Users can add the car to their favorite list by clicking the star icon.
+<br><br>
 
 ![Cars Catalog](/screenshots/CarCatalogFilter.png)
 - Remove from favorite list by clicking the star icon again.
@@ -52,11 +53,16 @@ This is website that is built for market owner to see the analytics of the car m
 - Frontend: ReactJS
 
 ### How to run
-1. Clone this repository: 
+1. Clone this repository:<br>
 `git clone https://github.com/ThanaritKanjanametawatAU/CarAnalytics.git`
-2. Install dependencies:
+<br><br>
+2. Go to the project directory:<br>
+`cd CarAnalytics/caranalytic-react`
+<br><br>
+3. Install dependencies:<br>
 `pnpm install`
-3. Run the project:
+<br><br>
+4. Run the project:<br>
 `pnpm run dev`
 
 
