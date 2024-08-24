@@ -14,7 +14,7 @@ const DashboardPage = () => {
     const [carData, setCarData] = useState(null);
   const [fullCarData, setFullCarData] = useState(null); // New state for full data
   const [collapsedBrands, setCollapsedBrands] = useState({});
-  const [sortConfig, setSortConfig] = useState({ key: 'Car', direction: 'ascending' });
+  const [sortConfig, setSortConfig] = useState({ key: 'Car Model Name', direction: 'ascending' });
   const [colorMap, setColorMap] = useState({});
 
 
@@ -47,26 +47,35 @@ useEffect(() => {
 
 
 
-    const processFullCarData = (cars) => {
-         const brands = {};
+const processFullCarData = (cars) => {
+  const brands = {};
 
-         cars.forEach(car => {
-         const brandName = car.NameMMT.split(' ')[0];
-         const modelName = car.Model;
+  cars.forEach(car => {
+    const brandName = car.NameMMT.split(' ')[0];
+    const modelName = car.Model;
+    
+    // Convert the price string to a number
+    const price = parseInt(car.Prc.replace(/,/g, ''), 10);
 
-        if (!brands[brandName]) {
-            brands[brandName] = {
-            total: 0,
-             models: {},
+    if (!brands[brandName]) {
+      brands[brandName] = {
+        total: 0,
+        value: 0,  // Initialize value to accumulate prices
+        models: {},
       };
     }
 
     if (!brands[brandName].models[modelName]) {
-      brands[brandName].models[modelName] = 0;
+      brands[brandName].models[modelName] = {
+        count: 0,
+        value: 0,  // Initialize value to accumulate model prices
+      };
     }
 
     brands[brandName].total += 1;
-    brands[brandName].models[modelName] += 1;
+    brands[brandName].value += price;  // Accumulate brand price
+    brands[brandName].models[modelName].count += 1;
+    brands[brandName].models[modelName].value += price;  // Accumulate model price
   });
 
   return { brands };
@@ -167,7 +176,7 @@ useEffect(() => {
   
   
   
-  
+
 const sortTable = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -176,32 +185,32 @@ const sortTable = (key) => {
     setSortConfig({ key, direction });
 
     const sortedBrands = Object.keys(fullCarData.brands).sort((a, b) => {
-        if (key === 'Car') {
+        if (key === 'Car Model Name') {
             if (a < b) return direction === 'ascending' ? -1 : 1;
             if (a > b) return direction === 'ascending' ? 1 : -1;
             return 0;
-        } else if (key === 'No.') {
+        } else if (key === 'Quantity') {
             return direction === 'ascending'
                 ? fullCarData.brands[a].total - fullCarData.brands[b].total
                 : fullCarData.brands[b].total - fullCarData.brands[a].total;
         } else if (key === 'Value') {
-            const valueA = Object.values(fullCarData.brands[a].models).reduce((acc, val) => acc + val, 0);
-            const valueB = Object.values(fullCarData.brands[b].models).reduce((acc, val) => acc + val, 0);
-            return direction === 'ascending' ? valueA - valueB : valueB - valueA;
+            return direction === 'ascending'
+                ? fullCarData.brands[a].value - fullCarData.brands[b].value
+                : fullCarData.brands[b].value - fullCarData.brands[a].value;
         }
         return 0;
     });
 
     const sortedFullCarData = sortedBrands.reduce((acc, brand) => {
         const sortedModels = Object.keys(fullCarData.brands[brand].models).sort((a, b) => {
-            if (key === 'Car') {
+            if (key === 'Car Model Name') {
                 if (a < b) return direction === 'ascending' ? -1 : 1;
                 if (a > b) return direction === 'ascending' ? 1 : -1;
                 return 0;
-            } else if (key === 'No.' || key === 'Value') {
+            } else if (key === 'Quantity' || key === 'Value') {
                 return direction === 'ascending'
-                    ? fullCarData.brands[brand].models[a] - fullCarData.brands[brand].models[b]
-                    : fullCarData.brands[brand].models[b] - fullCarData.brands[brand].models[a];
+                    ? fullCarData.brands[brand].models[a].value - fullCarData.brands[brand].models[b].value
+                    : fullCarData.brands[brand].models[b].value - fullCarData.brands[brand].models[a].value;
             }
             return 0;
         });
@@ -311,51 +320,56 @@ const barData = {
 
 
           {/* Table */}
-          <div style={{marginTop: '20px', width: '80%'}}>
+          <div style={{marginTop: '100px', width: '80%'}}>
               <table border="1" cellPadding="10" cellSpacing="0" style={{width: '100%'}}>
 
                   {/*Table Header*/}
                   <thead>
                   <tr>
-                      <th onClick={() => sortTable('Car')}>
-                          Car {sortConfig.key === 'Car' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
+                      <th onClick={() => sortTable('Car Model Name')} style={{cursor: 'pointer', userSelect: 'none'}}>
+                          Car Model
+                          Name {sortConfig.key === 'Car Model Name' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                       </th>
-                      <th onClick={() => sortTable('No.')}>
-                          No. {sortConfig.key === 'No.' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
+                      <th onClick={() => sortTable('Quantity')} style={{cursor: 'pointer', userSelect: 'none'}}>
+                          Quantity {sortConfig.key === 'Quantity' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                       </th>
-                      <th onClick={() => sortTable('Value')}>
-                          Value {sortConfig.key === 'Value' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
+                      <th onClick={() => sortTable('Value')} style={{cursor: 'pointer', userSelect: 'none'}}>
+                          Value
+                          (Baht) {sortConfig.key === 'Value' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                       </th>
                   </tr>
                   </thead>
 
 
-                    {/*Table Body*/}
+                  {/*Table Body*/}
                   <tbody>
                   {Object.keys(fullCarData.brands).map((brand) => (
                       <React.Fragment key={brand}>
-                          <tr style={{cursor: 'pointer'}} onClick={() => toggleBrandCollapse(brand)}>
+                          <tr
+                              className="brand-row"
+                              style={{cursor: 'pointer'}}
+                              onClick={() => toggleBrandCollapse(brand)}
+                          >
                               <td>
                                   <i className={`bi ${collapsedBrands[brand] ? 'bi-caret-right-fill' : 'bi-caret-down-fill'}`}
                                      style={{marginRight: '10px'}}></i>
                                   {brand}
                               </td>
-                              <td>{fullCarData.brands[brand].total}</td>
-                              <td>{Object.values(fullCarData.brands[brand].models).reduce((a, b) => a + b, 0) * 1000}</td>
+                              <td className="number-cell">{fullCarData.brands[brand].total.toLocaleString()}</td>
+                              <td className="number-cell">{fullCarData.brands[brand].value.toLocaleString()}</td>
                           </tr>
                           {!collapsedBrands[brand] && (
                               Object.keys(fullCarData.brands[brand].models).map((model) => (
-                                  <tr key={model}>
-                                      <td style={{paddingLeft: '40px'}}>-- {model}</td>
-                                      <td>{fullCarData.brands[brand].models[model]}</td>
-                                      <td>{fullCarData.brands[brand].models[model] * 1000}</td>
+                                  <tr key={model} className="model-row">
+                                      <td>{model}</td>
+                                      <td className="number-cell">{fullCarData.brands[brand].models[model].count.toLocaleString()}</td>
+                                      <td className="number-cell">{fullCarData.brands[brand].models[model].value.toLocaleString()}</td>
                                   </tr>
                               ))
                           )}
                       </React.Fragment>
                   ))}
                   </tbody>
-
 
 
               </table>
@@ -367,8 +381,8 @@ const barData = {
               Cars: {Object.keys(fullCarData.brands).reduce((total, brand) => total + fullCarData.brands[brand].total, 0)}</h2>
 
       </div>
-  )
-      ;
+  );
+
 };
 
 export default DashboardPage;

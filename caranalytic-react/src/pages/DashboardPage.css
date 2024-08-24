@@ -15,3 +15,25 @@
 tr {
   white-space: nowrap; /* Prevents wrapping of text in table cells */
 }
+
+.number-cell {
+  text-align: center;
+  font-family: 'Poppins', sans-serif; /* Optional: Ensure consistent font styling */
+}
+
+
+.brand-row {
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #f5f5f5;
+}
+
+.model-row {
+  font-size: 16px;
+  padding-left: 40px; /* Indent the models */
+}
+
+.number-cell {
+  text-align: center;
+  font-family: 'Poppins', sans-serif; /* Optional: Ensure consistent font styling */
+}
