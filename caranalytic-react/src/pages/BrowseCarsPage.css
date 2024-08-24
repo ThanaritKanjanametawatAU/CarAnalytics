@@ -82,6 +82,12 @@
 
 .favoriteButton i {
   font-size: 24px; /* Ensure the icon size matches */
+    color: #cccccc; /* Default color */
+  transition: color 0.3s ease-in-out;
+}
+
+.favoriteButton i.bi-star-fill {
+  color: #ffc107; /* Yellow color for filled star */
 }
 
 .carCardText {

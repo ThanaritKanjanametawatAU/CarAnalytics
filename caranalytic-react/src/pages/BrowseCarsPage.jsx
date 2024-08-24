@@ -28,7 +28,7 @@ const BrowseCarsPage = () => {
     // Simulate a loading delay of at least 1 second
     const loadingTimer = setTimeout(() => {
       setLoading(false);
-    }, 100);
+    }, 400);
 
     return () => clearTimeout(loadingTimer);
   }, []);
