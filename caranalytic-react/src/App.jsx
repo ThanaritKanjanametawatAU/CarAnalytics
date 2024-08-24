@@ -39,16 +39,6 @@ const App = () => {
             </li>
 
 
-            {/*Hightlighted Cars*/}
-            {/*<li style={styles.navItem}>*/}
-            {/*  <Link*/}
-            {/*    to="/highlighted-cars"*/}
-            {/*    style={location.pathname === '/highlighted-cars' ? styles.activeLink : styles.link}*/}
-            {/*  >*/}
-            {/*    Highlighted Cars*/}
-            {/*  </Link>*/}
-            {/*</li>*/}
-
 
           </ul>
         </nav>
