@@ -20,20 +20,30 @@
 }
 
 .catalog {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 30px; /* Increase the gap between items */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* This creates 3 equal-width columns */
+  gap: 20px; /* Adjust the spacing between items */
+  justify-items: center; /* Center the items within their grid cells */
   margin-top: 20px;
 }
 
+.carCardLink {
+  text-decoration: none;
+  color: inherit; /* Ensure the text inherits the default color */
+}
+
 .carCard {
+  background-color: #f9f9f9;
   border: 1px solid #ddd;
-  padding: 20px; /* Add more padding for better spacing */
-  width: calc(33.33% - 30px);
-  box-sizing: border-box;
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 320px; /* Fixed width for the cards */
+  height: 320px; /* Fixed height for the cards */
   text-align: center;
-  transition: transform 0.3s ease; /* Add smooth transition for hover effect */
+  flex-direction: column;
+  justify-content: space-between; /* Ensure space is distributed evenly */
+  transition: transform 0.3s ease-in-out;
 }
 
 .carCard:hover {
@@ -41,21 +51,28 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
-.carImage {
+.carImageContainer {
   width: 100%;
-  height: auto;
+  height: 150px; /* Set a fixed height for the image container */
+  overflow: hidden; /* Ensure that oversized images don't break the layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* Ensure images fit within the container */
 }
 
 .favoriteButton {
   position: absolute;
   top: 10px;
-  left: 10px;
-  background-color: transparent;
+  right: 10px;
+  background: none;
   border: none;
   cursor: pointer;
-  font-size: 24px;
-  color: #FFD700; /* Gold color for star icon */
-  transition: transform 0.3s ease; /* Add smooth transition for hover effect */
 }
 
 .favoriteButton:hover {
@@ -68,8 +85,13 @@
 }
 
 .carCardText {
-  font-size: 18px; /* Increase the text size */
+  flex-grow: 1; /* Allow text section to grow and fill remaining space */
+  font-size: 1rem;
+  line-height: 1.5;
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 

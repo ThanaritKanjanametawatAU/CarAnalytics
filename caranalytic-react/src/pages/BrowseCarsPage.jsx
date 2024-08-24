@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './BrowseCarsPage.css';  // Import the CSS file
 import carData from '../assets/taladrod-cars.json'; // Import the JSON data
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons
+import {Link} from 'react-router-dom';
 
 const BrowseCarsPage = () => {
   const [cars, setCars] = useState(carData.Cars);
@@ -27,7 +28,7 @@ const BrowseCarsPage = () => {
     // Simulate a loading delay of at least 1 second
     const loadingTimer = setTimeout(() => {
       setLoading(false);
-    }, 250);
+    }, 100);
 
     return () => clearTimeout(loadingTimer);
   }, []);
@@ -115,6 +116,12 @@ const BrowseCarsPage = () => {
     const newHighlightState = !isHighlightActive;
     setIsHighlightActive(newHighlightState);
     localStorage.setItem('isHighlightActive', JSON.stringify(newHighlightState)); // Store highlight state
+
+      // Clear filters when toggling highlight
+        setFilterOption({brand: '', model: ''});
+        setSearchQuery('');
+        setSortOption('');
+
   };
 
   if (loading) {
@@ -127,96 +134,101 @@ const BrowseCarsPage = () => {
   }
 
   return (
-    <div className="container">
-      <h1>Browse Cars</h1>
+      <div className="container">
+          <h1>Browse Cars</h1>
 
-      {/* Clear Filters */}
-      <button
-        onClick={() => {
-          setFilterOption({ brand: '', model: '' });
-          setSearchQuery('');
-          setSortOption('');
-          setFilteredCars(cars); // Reset the filtered cars to the full list
-        }}
-        className="button"
-      >
-        Clear Filters
-      </button>
+          {/* Clear Filters */}
+          <button
+              onClick={() => {
+                  setFilterOption({brand: '', model: ''});
+                  setSearchQuery('');
+                  setSortOption('');
+                  setFilteredCars(cars); // Reset the filtered cars to the full list
+              }}
+              className="button"
+          >
+              Clear Filters
+          </button>
 
-      {/* Highlight */}
-      <button onClick={handleHighlightToggle} className="button">
-        {isHighlightActive ? 'Show All Cars' : 'Highlight'}
-      </button>
+          {/* Highlight */}
+          <button onClick={handleHighlightToggle} className="button">
+              {isHighlightActive ? 'Show All Cars' : 'Highlighted Cars'}
+          </button>
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
-        className="input"
-      />
+          {/* Search */}
+          <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="input"
+          />
 
-      {/* Sort */}
-      <select onChange={e => setSortOption(e.target.value)} value={sortOption} className="input">
-        <option value="">Sort By</option>
-        <option value="name-asc">Name Ascending</option>
-        <option value="name-desc">Name Descending</option>
-        <option value="price-asc">Price Ascending</option>
-        <option value="price-desc">Price Descending</option>
-      </select>
+          {/* Sort */}
+          <select onChange={e => setSortOption(e.target.value)} value={sortOption} className="input">
+              <option value="">Sort By</option>
+              <option value="name-asc">Name Ascending</option>
+              <option value="name-desc">Name Descending</option>
+              <option value="price-asc">Price Ascending</option>
+              <option value="price-desc">Price Descending</option>
+          </select>
 
-      {/* Filter by Brand */}
-      <select
-        onChange={e => setFilterOption({ ...filterOption, brand: e.target.value, model: '' })}
-        value={filterOption.brand}
-        className="input"
-      >
-        <option value="">Filter by Brand</option>
-        {[...new Set(cars.map(car => car.NameMMT.split(' ')[0]))]
-          .sort((a, b) => a.localeCompare(b)) // Sort brands A-Z
-          .map(brand => (
-            <option key={brand} value={brand}>{brand}</option>
-          ))}
-      </select>
+          {/* Filter by Brand */}
+          <select
+              onChange={e => setFilterOption({...filterOption, brand: e.target.value, model: ''})}
+              value={filterOption.brand}
+              className="input"
+          >
+              <option value="">Filter by Brand</option>
+              {[...new Set(cars.map(car => car.NameMMT.split(' ')[0]))]
+                  .sort((a, b) => a.localeCompare(b)) // Sort brands A-Z
+                  .map(brand => (
+                      <option key={brand} value={brand}>{brand}</option>
+                  ))}
+          </select>
 
-      {/* Filter by Model */}
-      <select
-        onChange={e => setFilterOption({ ...filterOption, model: e.target.value })}
-        value={filterOption.model}
-        className="input"
-        disabled={!filterOption.brand}
-      >
-        <option value="">Filter by Model</option>
-        {modelOptions
-          .sort((a, b) => a.localeCompare(b)) // Sort models A-Z
-          .map(model => (
-            <option key={model} value={model}>{model}</option>
-          ))}
-      </select>
+          {/* Filter by Model */}
+          <select
+              onChange={e => setFilterOption({...filterOption, model: e.target.value})}
+              value={filterOption.model}
+              className="input"
+              disabled={!filterOption.brand}
+          >
+              <option value="">Filter by Model</option>
+              {modelOptions
+                  .sort((a, b) => a.localeCompare(b)) // Sort models A-Z
+                  .map(model => (
+                      <option key={model} value={model}>{model}</option>
+                  ))}
+          </select>
 
-      {/* Car Catalog */}
-      <div className="catalog">
-        {filteredCars.map(car => (
-          <div key={car.Cid} className="carCard">
-            <div style={{ position: 'relative' }}>
-              <img src={car.Img300} alt={car.NameMMT} className="carImage" />
-              <button
-                onClick={() => handleFavoriteToggle(car.Cid)}
-                className="favoriteButton"
-              >
-                <i className={favorites.includes(car.Cid) ? 'bi bi-star-fill' : 'bi bi-star'}></i>
-              </button>
-            </div>
-            <div className="carCardText">
-              <div>{car.NameMMT}</div>
-              <div>{parseInt(car.Prc.replace(/,/g, ''), 10).toLocaleString('en-US')} Baht</div>
-            </div>
+          {/* Car Catalog */}
+          <div className="catalog">
+              {filteredCars.map(car => (
+                  <Link to={`/car/${car.Cid}`} key={car.Cid} className="carCardLink">
+                      <div className="carCard">
+                          <div style={{position: 'relative'}}>
+                              <img src={car.Img600} alt={car.NameMMT} className="carImage"/>
+                              <button
+                                  onClick={(e) => {
+                                      e.preventDefault(); // Prevent the link from being followed when clicking the favorite button
+                                      handleFavoriteToggle(car.Cid);
+                                  }}
+                                  className="favoriteButton"
+                              >
+                                  <i className={favorites.includes(car.Cid) ? 'bi bi-star-fill' : 'bi bi-star'}></i>
+                              </button>
+                          </div>
+                          <div className="carCardText">
+                              <div>{car.NameMMT}</div>
+                              <div>{parseInt(car.Prc.replace(/,/g, ''), 10).toLocaleString('en-US')} Baht</div>
+                          </div>
+                      </div>
+                  </Link>
+              ))}
           </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+        </div>
+          );
+          };
 
-export default BrowseCarsPage;
+          export default BrowseCarsPage;

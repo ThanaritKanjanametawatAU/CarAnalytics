@@ -1,0 +1,117 @@
+.car-detail-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f3eeee;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.car-detail-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.car-image-container {
+  position: relative;
+  flex: 2;
+  padding-right: 20px;
+}
+
+.car-detail-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.favoriteButton.top-right {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+    scale: 1.5;
+}
+
+.car-detail-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.car-detail-header {
+  margin-bottom: 20px;
+}
+
+.car-name {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.car-detail-specs p {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.car-detail-specs p strong {
+  margin-right: 10px;
+}
+
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 1.5rem;
+  background: transparent;
+    /*Round BorderA*/
+    border: none;
+    border-radius: 60%;
+
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease-in-out;
+
+}
+.closeButton:hover {
+    background-color: #dbd8d8;
+
+}
+
+
+.car-detail-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.car-detail-header {
+  margin-bottom: 20px;
+}
+
+.car-name {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.car-detail-specs p {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.car-detail-specs p strong {
+  margin-right: 10px;
+}
