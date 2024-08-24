@@ -9,8 +9,13 @@ const App = () => {
   return (
     <div>
       <nav style={styles.nav}>
+
         <div style={styles.brand}>RodTalad</div>
+
         <ul style={styles.navLinks}>
+
+
+          {/*Dashboard*/}
           <li style={styles.navItem}>
             <Link
               to="/"
@@ -19,6 +24,20 @@ const App = () => {
               Dashboard
             </Link>
           </li>
+
+
+          {/*Browse Cars*/}
+          <li style={styles.navItem}>
+            <Link
+                to="/browse-cars"
+                style={location.pathname === '/browse-cars' ? styles.activeLink : styles.link}
+            >
+                Browse Cars
+            </Link>
+            </li>
+
+
+          {/*Hightlighted Cars*/}
           <li style={styles.navItem}>
             <Link
               to="/highlighted-cars"
@@ -27,6 +46,9 @@ const App = () => {
               Highlighted Cars
             </Link>
           </li>
+
+
+
         </ul>
       </nav>
       <hr style={styles.separator} />
