@@ -207,7 +207,7 @@ const BrowseCarsPage = () => {
               {filteredCars.map(car => (
                   <Link to={`/car/${car.Cid}`} key={car.Cid} className="carCardLink">
                       <div className="carCard">
-                          <div style={{position: 'relative'}}>
+                          <div style={{position: 'relative'}} className="carImageContainer">
                               <img src={car.Img600} alt={car.NameMMT} className="carImage"/>
                               <button
                                   onClick={(e) => {

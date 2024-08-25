@@ -52,24 +52,30 @@
 }
 
 .carImageContainer {
-  width: 100%;
-  height: 150px; /* Set a fixed height for the image container */
-  overflow: hidden; /* Ensure that oversized images don't break the layout */
+  width: 320px;
+  height: 220px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .carImage {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover; /* Ensure images fit within the container */
+    width: 320px;
+    height: 220px;
+    object-fit: cover;
+    object-position: center;
+  margin-top: 10px;
+
+
 }
+
 
 .favoriteButton {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
   background: none;
   border: none;
   cursor: pointer;
@@ -82,7 +88,7 @@
 
 .favoriteButton i {
   font-size: 24px; /* Ensure the icon size matches */
-    color: #cccccc; /* Default color */
+    color: #eff903; /* Default color */
   transition: color 0.3s ease-in-out;
 }
 
